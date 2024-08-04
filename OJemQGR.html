@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<!-- saved from url=(0061)https://cdpn.io/panda1305/fullpage/OJemQGR?nocache=true&view= -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  
+  
+
+    <link rel="apple-touch-icon" type="image/png" href="https://cpwebassets.codepen.io/assets/favicon/apple-touch-icon-5ae1a0698dcc2402e9712f7d01ed509a57814f994c660df9f7a952f3060705ee.png">
+
+    <meta name="apple-mobile-web-app-title" content="CodePen">
+
+    <link rel="shortcut icon" type="image/x-icon" href="https://cpwebassets.codepen.io/assets/favicon/favicon-aec34940fbc1a6e787974dcd360f2c6b63348d4b1f4e06c77743096d55480f33.ico">
+
+    <link rel="mask-icon" type="image/x-icon" href="https://cpwebassets.codepen.io/assets/favicon/logo-pin-b4b4269c16397ad2f0f7a01bcdf513a1994f4c94b8af2f191c09eb0d601762b1.svg" color="#111">
+
+
+
+  
+    <script src="./stopExecutionOnTimeout-2c7831bb44f98c1391d6a4ffda0e1fd302503391ca806e7fcc7b9b87197aec26.js"></script>
+
+
+  <title>CodePen - bookaroo</title>
+
+    <link rel="canonical" href="https://codepen.io/panda1305/pen/OJemQGR">
+  
+  
+  
+  
+<style>
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f4f8;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background-color: #0056b3;
+    color: white;
+    padding: 1rem;
+    text-align: center;
+}
+
+header h1 {
+    margin: 0;
+}
+
+main {
+    padding: 2rem;
+}
+
+button {
+    background-color: #0056b3;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    margin: 0.5rem;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 1rem;
+}
+
+button:hover {
+    background-color: #004494;
+}
+
+#search-form, #booking-form, #payment-form {
+    margin: 1rem 0;
+}
+
+#search-form select, #booking-form input, #payment-form select, #payment-form input {
+    margin-bottom: 1rem;
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+#venue-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.venue {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 1rem;
+    width: calc(33% - 1rem);
+}
+
+.venue img {
+    width: 100%;
+    height: auto;
+    border-radius: 4px;
+}
+
+#venue-details {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#venue-info img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 4px;
+}
+
+.section-image {
+    width: 100%;
+    height: auto;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+}
+
+#thank-you-popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.popup-content {
+    background: white;
+    padding: 2rem;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.popup-content button {
+    background-color: #0056b3;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 1rem;
+}
+
+#payment-form {
+    margin-top: 1rem;
+}
+
+#payment-details img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 4px;
+}
+</style>
+
+  <script>
+  window.console = window.console || function(t) {};
+</script>
+
+  
+  
+</head>
+
+<body translate="no">
+  
+
+
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bookaroo - Event Venue Booking</title>
+    <link rel="stylesheet" href="./styles.css">
+
+
+    <header>
+        <h1>Bookaroo</h1>
+    </header>
+    <main>
+        <!-- Location Selection -->
+        <section id="location-section">
+            <h2>Select Location</h2>
+            <img src="./photo-1589463349208-95817c91f971" alt="Location Selection" class="section-image">
+            <form id="location-form">
+                <select id="location" name="location" required="">
+                    <option value="" disabled="" selected="">Select a location</option>
+                    <option value="hyderabad">Hyderabad</option>
+                    <option value="delhi">Delhi</option>
+                    <option value="mumbai">Mumbai</option>
+                    <option value="chennai">Chennai</option>
+                    <option value="vizag">Vizag</option>
+                </select>
+                <button type="submit">Next</button>
+            </form>
+        </section>
+
+        <!-- Event Selection -->
+        <section id="event-section" style="display: none;">
+            <h2>Select Event</h2>
+            <img src="./photo-1628336707631-68131ca720c3" alt="Event Selection" class="section-image">
+            <form id="event-form">
+                <select id="event" name="event" required="">
+                    <option value="" disabled="" selected="">Select an event</option>
+                    <option value="proposal">Proposal</option>
+                    <option value="birthday">Birthday</option>
+                    <option value="anniversary">Anniversary</option>
+                    <option value="office-party">Office Party</option>
+                    <option value="reunion">Reunion</option>
+                </select>
+                <button type="submit">Next</button>
+            </form>
+        </section>
+
+        <!-- Venue Selection -->
+        <section id="venue-section" style="display: none;">
+            <h2>Available Venues</h2>
+            <img src="./celeb.jpg" alt="Venue Selection" class="section-image">
+            <div id="venue-list"></div>
+            <button id="back-to-location">Go Back</button>
+        </section>
+
+        <!-- Venue Details -->
+        <section id="venue-details-section" style="display: none;">
+            <div id="venue-info"></div>
+            <button id="book-venue">Book Venue</button>
+            <button id="go-back">Go Back</button>
+        </section>
+
+        <!-- Booking Form -->
+        <section id="booking-section" style="display: none;">
+            <h2>Booking Form</h2>
+            <img src="./photo-1635548166842-bf67bacbefaa" alt="Booking Form" class="section-image">
+            <form id="booking-form">
+                <label for="date">Date:</label>
+                <input type="date" id="date" name="date" required="">
+
+                <label for="time-slot">Time Slot:</label>
+                <select id="time-slot" name="time-slot" required="">
+                    <!-- Options will be generated by JavaScript -->
+                <option value="9:00 - 13:00">9:00 - 13:00</option><option value="14:00 - 18:00">14:00 - 18:00</option><option value="19:00 - 23:00">19:00 - 23:00</option></select>
+
+                <label for="capacity">Capacity:</label>
+                <input type="number" id="capacity" name="capacity" required="">
+
+                <button type="submit">Next</button>
+            </form>
+        </section>
+
+        <!-- Checkout Section -->
+        <section id="checkout-section" style="display: none;">
+            <h2>Checkout</h2>
+            <img src="./photo-1565514158882-617325fbd873" alt="Checkout" class="section-image">
+            <div id="checkout-details"></div>
+            <form id="payment-form">
+                <label for="payment-method">Payment Method:</label>
+                <select id="payment-method" name="payment-method" required="">
+                    <option value="cash">Cash</option>
+                    <option value="credit-card">Credit/Debit Card</option>
+                    <option value="upi">UPI</option>
+                </select>
+
+                <div id="payment-details"></div>
+
+                <button type="submit">Proceed</button>
+            </form>
+        </section>
+
+        <!-- Thank You Popup -->
+        <div id="thank-you-popup" style="display: none;">
+            <div class="popup-content">
+                <h2>Thank You!</h2>
+                <p>Your booking was successful.</p>
+                <button onclick="redirectToStart()">Close</button>
+            </div>
+        </div>
+    </main>
+
+
+  
+      <script id="rendered-js">
+document.addEventListener('DOMContentLoaded', function () {
+  // Populate time slots in 5-hour intervals
+  const timeSlotSelect = document.getElementById('time-slot');
+  for (let hour = 9; hour <= 22; hour += 5) {if (window.CP.shouldStopExecution(0)) break;
+    timeSlotSelect.add(new Option(`${hour}:00 - ${hour + 4}:00`, `${hour}:00 - ${hour + 4}:00`));
+  }
+
+  // Handle location form submission
+  window.CP.exitedLoop(0);document.getElementById('location-form').addEventListener('submit', function (event) {
+    event.preventDefault();
+    document.getElementById('location-section').style.display = 'none';
+    document.getElementById('event-section').style.display = 'block';
+  });
+
+  // Handle event form submission
+  document.getElementById('event-form').addEventListener('submit', function (event) {
+    event.preventDefault();
+    document.getElementById('event-section').style.display = 'none';
+    document.getElementById('venue-section').style.display = 'block';
+    loadVenues();
+  });
+
+  // Load venues (simulated)
+  function loadVenues() {
+    const venueList = document.getElementById('venue-list');
+    venueList.innerHTML = `
+            <div class="venue">
+                <img src="https://images.unsplash.com/photo-1695552944709-805df3e41d34?crop=entropy&cs=srgb&fm=jpg&ixid=M3wzMjM4NDZ8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MjI3Nzc0MDV8&ixlib=rb-4.0.3&q=85" alt="Trident">
+                <h3>Trident</h3>
+                <p>Celebrate with joy and luxury.</p>
+                <p>Price: $100 per hour</p>
+                <button class="view-details" data-venue="1">View Details</button>
+            </div>
+            <div class="venue">
+                <img src="https://images.unsplash.com/photo-1718606391382-76064ef27a1f?crop=entropy&cs=srgb&fm=jpg&ixid=M3wzMjM4NDZ8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MjI3NzcyMTl8&ixlib=rb-4.0.3&q=85" alt="ITC Kakatiya">
+                <h3>ITC Kakatiya</h3>
+                <p>Enjoy family time with loads of adventure.</p>
+                <p>Price: $120 per hour</p>
+                <button class="view-details" data-venue="2">View Details</button>
+            </div>
+            <div class="venue">
+                <img src="https://images.unsplash.com/photo-1454388683759-ee76c15fee26?crop=entropy&cs=srgb&fm=jpg&ixid=M3wzMjM4NDZ8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MjI3NzczNDd8&ixlib=rb-4.0.3&q=85" alt="Novotel">
+                <h3>Novotel</h3>
+                <p>Enjoy with everyone with beach side activities.</p>
+                <p>Price: $150 per hour</p>
+                <button class="view-details" data-venue="3">View Details</button>
+            </div>
+        `;
+  }
+
+  // Handle view details button click
+  document.getElementById('venue-list').addEventListener('click', function (event) {
+    if (event.target.classList.contains('view-details')) {
+      const venueId = event.target.dataset.venue;
+      showVenueDetails(venueId);
+    }
+  });
+
+  function showVenueDetails(venueId) {
+    document.getElementById('venue-section').style.display = 'none';
+    document.getElementById('venue-details-section').style.display = 'block';
+
+    const venueInfo = document.getElementById('venue-info');
+    const venues = {
+      1: { name: 'Trident', description: 'Celebrate with joy and luxury.', price: 100, image: 'https://images.unsplash.com/photo-1695552944709-805df3e41d34?crop=entropy&cs=srgb&fm=jpg&ixid=M3wzMjM4NDZ8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MjI3Nzc0MDV8&ixlib=rb-4.0.3&q=85' },
+      2: { name: 'ITC Kakatiya', description: 'Enjoy family time with loads of adventure.', price: 120, image: 'https://images.unsplash.com/photo-1718606391382-76064ef27a1f?crop=entropy&cs=srgb&fm=jpg&ixid=M3wzMjM4NDZ8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MjI3NzcyMTl8&ixlib=rb-4.0.3&q=85' },
+      3: { name: 'Novotel', description: 'Enjoy with everyone with beach side activities.', price: 150, image: 'https://images.unsplash.com/photo-1454388683759-ee76c15fee26?crop=entropy&cs=srgb&fm=jpg&ixid=M3wzMjM4NDZ8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MjI3NzczNDd8&ixlib=rb-4.0.3&q=85' } };
+
+
+    const venue = venues[venueId];
+    venueInfo.innerHTML = `
+            <img src="${venue.image}" alt="${venue.name}">
+            <h3>${venue.name}</h3>
+            <p>${venue.description}</p>
+            <p>Price: $${venue.price} per hour</p>
+        `;
+
+    // Handle book venue button click
+    document.getElementById('book-venue').addEventListener('click', function () {
+      document.getElementById('venue-details-section').style.display = 'none';
+      document.getElementById('booking-section').style.display = 'block';
+    });
+
+    // Handle go back button click
+    document.getElementById('go-back').addEventListener('click', function () {
+      document.getElementById('venue-details-section').style.display = 'none';
+      document.getElementById('venue-section').style.display = 'block';
+    });
+  }
+
+  // Handle booking form submission
+  document.getElementById('booking-form').addEventListener('submit', function (event) {
+    event.preventDefault();
+    document.getElementById('booking-section').style.display = 'none';
+    document.getElementById('checkout-section').style.display = 'block';
+
+    const selectedDate = document.getElementById('date').value;
+    const selectedTimeSlot = document.getElementById('time-slot').value;
+    const capacity = document.getElementById('capacity').value;
+
+    const pricePerHour = getPricePerHour();
+    const additionalCharges = calculateAdditionalCharges();
+    const totalAmount = pricePerHour + additionalCharges;
+
+    const checkoutDetails = document.getElementById('checkout-details');
+    checkoutDetails.innerHTML = `
+            <h3>Booking Summary</h3>
+            <p>Date: ${selectedDate}</p>
+            <p>Time Slot: ${selectedTimeSlot}</p>
+            <p>Capacity: ${capacity}</p>
+            <p>Additional Charges: $${additionalCharges}</p>
+            <p>Total Amount: $${totalAmount}</p>
+        `;
+  });
+
+  function getPricePerHour() {
+    // This function should ideally return the price of the selected venue.
+    // For demonstration, we'll return a default value.
+    return 100; // Default price for demonstration
+  }
+
+  function calculateAdditionalCharges() {
+    const additionalHours = parseInt(prompt("Enter additional hours:") || 0, 10);
+    return additionalHours * 5; // $5 per additional hour
+  }
+
+  // Handle payment form submission
+  document.getElementById('payment-form').addEventListener('submit', function (event) {
+    event.preventDefault();
+    const paymentMethod = document.getElementById('payment-method').value;
+    const paymentDetails = document.getElementById('payment-details');
+
+    if (paymentMethod === 'cash') {
+      paymentDetails.innerHTML = '';
+      showThankYouPopup();
+    } else if (paymentMethod === 'credit-card') {
+      paymentDetails.innerHTML = `
+                <label for="card-number">Card Number:</label>
+                <input type="text" id="card-number" name="card-number" required>
+
+                <label for="expiry-date">Expiry Date:</label>
+                <input type="text" id="expiry-date" name="expiry-date" required>
+
+                <label for="cvv">CVV:</label>
+                <input type="text" id="cvv" name="cvv" required>
+            `;
+    } else if (paymentMethod === 'upi') {
+      paymentDetails.innerHTML = `
+                <label for="upi-id">UPI ID:</label>
+                <input type="text" id="upi-id" name="upi-id" required>
+
+                <img src="images/qr-code.png" alt="QR Code" class="qr-code">
+            `;
+    }
+
+    // Handle proceed button click in payment form
+    document.querySelector('#payment-form button').addEventListener('click', function () {
+      if (paymentMethod === 'cash' || validatePaymentDetails(paymentMethod)) {
+        showThankYouPopup();
+      }
+    });
+  });
+
+  function validatePaymentDetails(method) {
+    if (method === 'credit-card') {
+      const cardNumber = document.getElementById('card-number').value;
+      const expiryDate = document.getElementById('expiry-date').value;
+      const cvv = document.getElementById('cvv').value;
+      return cardNumber && expiryDate && cvv;
+    } else if (method === 'upi') {
+      const upiId = document.getElementById('upi-id').value;
+      return upiId;
+    }
+    return false;
+  }
+
+  function showThankYouPopup() {
+    document.getElementById('thank-you-popup').style.display = 'flex';
+  }
+
+  function redirectToStart() {
+    document.getElementById('thank-you-popup').style.display = 'none';
+    document.getElementById('location-section').style.display = 'block';
+    document.getElementById('event-section').style.display = 'none';
+    document.getElementById('venue-section').style.display = 'none';
+    document.getElementById('venue-details-section').style.display = 'none';
+    document.getElementById('booking-section').style.display = 'none';
+    document.getElementById('checkout-section').style.display = 'none';
+  }
+
+  // Add event listener for close button in the popup
+  document.querySelector('#thank-you-popup button').addEventListener('click', redirectToStart);
+});
+//# sourceURL=pen.js
+    </script>
+
+  
+
+
+
+</body></html>
